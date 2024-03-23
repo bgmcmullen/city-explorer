@@ -33,11 +33,19 @@ function App() {
       }).catch(error => {
         console.log('UGH OOOOH:', error);
       });
+      
+      axios.get(`https://maps.locationiq.com/v3/staticmap?key=${API_KEY}&center=51.50344025&,-0.12770820958562096&zoom=10`)
+      .then(response => {
+        console.log('Map SUCCESS: ', response.data);
+      }).catch(error => {
+        console.log('Map UGH OOOOH:', error);
+      });
   }
 
 
   return (
     <>
+    <h1>City Explorer</h1>
       <Form>
         <Form.Group className="mb-3" controlId="formBasicEmail">
           <Form.Control placeholder="Enter location" onChange={handleChange} />
@@ -64,6 +72,7 @@ function App() {
           </Accordion.Body>
         </Accordion.Item>
       </Accordion>
+      <img src={`https://maps.locationiq.com/v3/staticmap?key=${API_KEY}&center=${latitude},${longitude}&zoom=10`}/>
     </>
   )
 }
