@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
+import Modal from 'react-bootstrap/Modal';
 import './App.css'
 import axios from 'axios';
 import Accordion from 'react-bootstrap/Accordion';
@@ -10,7 +11,7 @@ const API_KEY = import.meta.env.VITE_API_KEY;
 function App() {
   const [inputValue, setInputValue] = useState('');
   const handleChange = (event) => {
-    setInputValue(event.target.value);
+    setInputValue(event.target.value);;
   }
 
   const [displayName, setDisplayName] = useState('');
@@ -18,6 +19,8 @@ function App() {
   const [latitude, setLatitude] = useState('');
 
   const [longitude, setLongitude] = useState('');
+  
+  const [errorMessage, setErrorMessage] = useState('');
 
 
 
@@ -29,19 +32,18 @@ function App() {
         setDisplayName(response.data[0].display_name);
         setLatitude(response.data[0].lat);
         setLongitude(response.data[0].lon);
-        console.log(longitude);
+        
       }).catch(error => {
-        console.log('UGH OOOOH:', error);
-      });
-      
-      axios.get(`https://maps.locationiq.com/v3/staticmap?key=${API_KEY}&center=51.50344025&,-0.12770820958562096&zoom=10`)
-      .then(response => {
-        console.log('Map SUCCESS: ', response.data);
-      }).catch(error => {
-        console.log('Map UGH OOOOH:', error);
+        setErrorMessage(error.message);
+        setShowModal(true);
       });
   }
 
+  const [showModal, setShowModal] = useState(false);
+
+  const handleHide = () => {
+    setShowModal(false);
+  }
 
   return (
     <>
@@ -73,6 +75,14 @@ function App() {
         </Accordion.Item>
       </Accordion>
       <img src={`https://maps.locationiq.com/v3/staticmap?key=${API_KEY}&center=${latitude},${longitude}&zoom=10`}/>
+      <Modal
+        show={showModal}
+        onHide={handleHide}
+      >
+        <Modal.Header closeButton>
+          <Modal.Title>{errorMessage}</Modal.Title>
+        </Modal.Header>
+      </Modal>
     </>
   )
 }
