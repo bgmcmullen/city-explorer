@@ -3,6 +3,8 @@ import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import './App.css'
 import axios from 'axios';
+import Accordion from 'react-bootstrap/Accordion';
+
 const API_KEY = import.meta.env.VITE_API_KEY;
 
 function App() {
@@ -10,12 +12,12 @@ function App() {
   const handleChange = (event) => {
     setInputValue(event.target.value);
   }
-  
-  const[displayName, setDisplayName] = useState('');
 
-  const[latitude, setLatitude] = useState('');
+  const [displayName, setDisplayName] = useState('');
 
-  const[longitude, setLongitude] = useState('');
+  const [latitude, setLatitude] = useState('');
+
+  const [longitude, setLongitude] = useState('');
 
 
 
@@ -30,30 +32,38 @@ function App() {
         console.log(longitude);
       }).catch(error => {
         console.log('UGH OOOOH:', error);
-      });  
-    }
+      });
+  }
 
 
   return (
     <>
       <Form>
         <Form.Group className="mb-3" controlId="formBasicEmail">
-          <Form.Control placeholder="Enter location" onChange={handleChange}/>
+          <Form.Control placeholder="Enter location" onChange={handleChange} />
         </Form.Group>
 
         <Button variant="primary" type="submit" onClick={handleClick}>
           Explore!
         </Button>
       </Form>
-      <h2>
-        {displayName}
-      </h2>
       <h3>
-        Latitude: {latitude}
+      {displayName}
       </h3>
-      <h3>
-      Longitude: {longitude}
-      </h3>
+      <Accordion defaultActiveKey="0">
+        <Accordion.Item eventKey="0">
+          <Accordion.Header>Latitude: </Accordion.Header>
+          <Accordion.Body>
+            {latitude}
+          </Accordion.Body>
+        </Accordion.Item>
+        <Accordion.Item eventKey="1">
+          <Accordion.Header>Longitude: </Accordion.Header>
+          <Accordion.Body>
+            {longitude}
+          </Accordion.Body>
+        </Accordion.Item>
+      </Accordion>
     </>
   )
 }
