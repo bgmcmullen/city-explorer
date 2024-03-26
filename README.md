@@ -23,5 +23,9 @@ React Bootstrap, LocationIQ, Netlify
 
 03-23-2024 7:39pm - app can display map
 
+03-25-2024 8:15pm - added weather display feature
+
+03-26-2024 10:38pm - app can now display weather information from API
+
 
 
