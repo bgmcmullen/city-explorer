@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState } from 'react';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import Modal from 'react-bootstrap/Modal';
@@ -17,16 +17,13 @@ function App() {
 
   const [displayName, setDisplayName] = useState('');
 
-  const [latitude, setLatitude] = useState('');
+  const [latitude, setLatitude] = useState('47.6038321&l');
 
-  const [longitude, setLongitude] = useState('');
+  const [longitude, setLongitude] = useState('122.330062');
   
   const [errorMessage, setErrorMessage] = useState('');
 
-  const [weatherData, setWeatherData] = useState([
-  {date: '', description: ''},
-  {date: '', description: ''},
-  {date: '', description: ''}]);
+  const [weatherData, setWeatherData] = useState( {date: '', temperature: '', description: ''});
 
 
 
@@ -34,7 +31,6 @@ function App() {
     event.preventDefault();
     axios.get(`https://us1.locationiq.com/v1/search?key=${API_KEY}&q=${inputValue}&format=json`)
       .then(response => {
-        console.log('SUCCESS: ', response.data);
         setDisplayName(response.data[0].display_name);
         setLatitude(response.data[0].lat);
         setLongitude(response.data[0].lon);
@@ -44,10 +40,7 @@ function App() {
         setShowModal(true);
       });
       axios.get(`http://localhost:3000/weather?lat=${latitude}&lon=${longitude}&searchQuery=${inputValue}`).then(response => {
-        console.log('SUCCESS2: ', response.data);
         setWeatherData(response.data);
-        console.log('weather data', weatherData);
-        console.log(`http://localhost:3000/weather?lat=${latitude}&lon=${longitude}&searchQuery=${inputValue}`);
       }).catch(error => {
         setErrorMessage(error.message);
         setShowModal(true);
@@ -89,9 +82,8 @@ function App() {
           </Accordion.Body>
         </Accordion.Item>
       </Accordion>
-      <Weather weatherData={weatherData[0]}/>
-      <Weather weatherData={weatherData[1]}/>
-      <Weather weatherData={weatherData[2]}/>
+      <Weather weatherData={weatherData}/>
+
       <img src={`https://maps.locationiq.com/v3/staticmap?key=${API_KEY}&center=${latitude},${longitude}&zoom=10`} style={{display: 'inline'}}/>
       <Modal
         show={showModal}
