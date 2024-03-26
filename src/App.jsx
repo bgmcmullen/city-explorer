@@ -6,6 +6,7 @@ import './App.css'
 import axios from 'axios';
 import Accordion from 'react-bootstrap/Accordion';
 import Weather from './Weather';
+import Movies from './Movies';
 
 const API_KEY = import.meta.env.VITE_API_KEY;
 
@@ -25,6 +26,15 @@ function App() {
 
   const [weatherData, setWeatherData] = useState( {date: '', temperature: '', description: ''});
 
+  const [movieData, setMovieData] = useState( [{
+    title: '',
+    overview: '',
+    average_votes: '',
+    total_votes: '',
+    image_url: '',
+    popularity: '',
+    released_on: ''}]);
+
 
 
   const handleClick = (event) => {
@@ -40,11 +50,21 @@ function App() {
         setShowModal(true);
       });
       axios.get(`http://localhost:3000/weather?lat=${latitude}&lon=${longitude}&searchQuery=${inputValue}`).then(response => {
-        setWeatherData(response.data);
+
+        setWeatherData(response.data.weather);
+      
       }).catch(error => {
         setErrorMessage(error.message);
         setShowModal(true);
       });
+      axios.get(`http://localhost:3000/movies?lat=${latitude}&lon=${longitude}&searchQuery=${inputValue}`).then(response => {
+
+    
+      setMovieData(response.data.movies);
+    }).catch(error => {
+      setErrorMessage(error.message);
+      setShowModal(true);
+    });
     };
 
   const [showModal, setShowModal] = useState(false);
@@ -85,6 +105,8 @@ function App() {
       <Weather weatherData={weatherData}/>
 
       <img src={`https://maps.locationiq.com/v3/staticmap?key=${API_KEY}&center=${latitude},${longitude}&zoom=10`} style={{display: 'inline'}}/>
+
+      <Movies movieData={movieData}/>
       <Modal
         show={showModal}
         onHide={handleHide}
