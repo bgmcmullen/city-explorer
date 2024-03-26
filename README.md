@@ -27,5 +27,7 @@ React Bootstrap, LocationIQ, Netlify
 
 03-26-2024 10:38pm - app can now display weather information from API
 
+03-26-2024 3:17pm - app can now display movie information from API
+
 
 

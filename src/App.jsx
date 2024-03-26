@@ -49,7 +49,7 @@ function App() {
         setErrorMessage(error.message);
         setShowModal(true);
       });
-      axios.get(`http://localhost:3000/weather?lat=${latitude}&lon=${longitude}&searchQuery=${inputValue}`).then(response => {
+      axios.get(`https://city-explorer-api-ztqj.onrender.com/weather?lat=${latitude}&lon=${longitude}&searchQuery=${inputValue}`).then(response => {
 
         setWeatherData(response.data.weather);
       
@@ -57,7 +57,7 @@ function App() {
         setErrorMessage(error.message);
         setShowModal(true);
       });
-      axios.get(`http://localhost:3000/movies?lat=${latitude}&lon=${longitude}&searchQuery=${inputValue}`).then(response => {
+      axios.get(`https://city-explorer-api-ztqj.onrender.com/movies?lat=${latitude}&lon=${longitude}&searchQuery=${inputValue}`).then(response => {
 
     
       setMovieData(response.data.movies);
