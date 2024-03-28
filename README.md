@@ -29,5 +29,7 @@ React Bootstrap, LocationIQ, Netlify
 
 03-26-2024 3:17pm - app can now display movie information from API
 
+## Diagram
+[Diagram](Diagram.pdf)
 
 
