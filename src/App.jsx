@@ -18,7 +18,7 @@ function App() {
 
   const [displayName, setDisplayName] = useState('');
 
-  const [latitude, setLatitude] = useState('47.6038321&l');
+  const [latitude, setLatitude] = useState('47.6038321');
 
   const [longitude, setLongitude] = useState('122.330062');
   
@@ -49,7 +49,7 @@ function App() {
         setErrorMessage(error.message);
         setShowModal(true);
       });
-      axios.get(`https://city-explorer-api-ztqj.onrender.com/weather?lat=${latitude}&lon=${longitude}&searchQuery=${inputValue}`).then(response => {
+      axios.get(`http://localhost:3000/weather?lat=${latitude}&lon=${longitude}&searchQuery=${inputValue}`).then(response => {
 
         setWeatherData(response.data.weather);
       
@@ -57,7 +57,7 @@ function App() {
         setErrorMessage(error.message);
         setShowModal(true);
       });
-      axios.get(`https://city-explorer-api-ztqj.onrender.com/movies?lat=${latitude}&lon=${longitude}&searchQuery=${inputValue}`).then(response => {
+      axios.get(`http://localhost:3000/movies?lat=${latitude}&lon=${longitude}&searchQuery=${inputValue}`).then(response => {
 
     
       setMovieData(response.data.movies);
