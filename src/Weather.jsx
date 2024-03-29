@@ -1,11 +1,9 @@
-import Card from 'react-bootstrap/Card';
+import Day from './Day';
 
 function Weather(props) {
   return (
   <>
-  <Card>Date: {`${props.weatherData.date}`}</Card>
-  <Card>Temperature: {`${props.weatherData.temperature} °C`}</Card>
-  <Card>Weather: {`${props.weatherData.description}`}</Card>
+  <Day date={props.weatherData.date} temperature={props.weatherData.temperature} description={props.weatherData.description}/>
   </>);
 }
 
