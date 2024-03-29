@@ -18,54 +18,70 @@ function App() {
 
   const [displayName, setDisplayName] = useState('');
 
-  const [latitude, setLatitude] = useState('47.6038321&l');
+  const [latitude, setLatitude] = useState('47.6038321');
 
   const [longitude, setLongitude] = useState('122.330062');
-  
+
   const [errorMessage, setErrorMessage] = useState('');
 
-  const [weatherData, setWeatherData] = useState( {date: '', temperature: '', description: ''});
+  const [weatherData, setWeatherData] = useState({ date: '', temperature: '', description: '' });
 
-  const [movieData, setMovieData] = useState( [{
+  const [movieData, setMovieData] = useState([{
     title: '',
     overview: '',
     average_votes: '',
     total_votes: '',
     image_url: '',
     popularity: '',
-    released_on: ''}]);
+    released_on: ''
+  }]);
+
+  async function locationCall() {
+    try {
+      const response = await axios.get(`https://us1.locationiq.com/v1/search?key=${API_KEY}&q=${inputValue}&format=json`);
+      setDisplayName(response.data[0].display_name);
+      await setLatitude(response.data[0].lat);
+      await setLongitude(response.data[0].lon);
+      weatherCall();
+      moviesCall();
+    } catch (error) {
+      setErrorMessage(error.message);
+      setShowModal(true);
+    }
+  }
+
+  function weatherCall() {
+
+    axios.get(`http://localhost:3000/weather?lat=${latitude}&lon=${longitude}&searchQuery=${inputValue}`).then(response => {
+
+      setWeatherData(response.data.weather);
+
+    }).catch(error => {
+      setErrorMessage(error.message);
+      setShowModal(true);
+    });
+  }
+
+  function moviesCall() {
+
+    axios.get(`http://localhost:3000/movies?lat=${latitude}&lon=${longitude}&searchQuery=${inputValue}`).then(response => {
 
 
-
-  const handleClick = (event) => {
-    event.preventDefault();
-    axios.get(`https://us1.locationiq.com/v1/search?key=${API_KEY}&q=${inputValue}&format=json`)
-      .then(response => {
-        setDisplayName(response.data[0].display_name);
-        setLatitude(response.data[0].lat);
-        setLongitude(response.data[0].lon);
-        
-      }).catch(error => {
-        setErrorMessage(error.message);
-        setShowModal(true);
-      });
-      axios.get(`https://city-explorer-api-ztqj.onrender.com/weather?lat=${latitude}&lon=${longitude}&searchQuery=${inputValue}`).then(response => {
-
-        setWeatherData(response.data.weather);
-      
-      }).catch(error => {
-        setErrorMessage(error.message);
-        setShowModal(true);
-      });
-      axios.get(`https://city-explorer-api-ztqj.onrender.com/movies?lat=${latitude}&lon=${longitude}&searchQuery=${inputValue}`).then(response => {
-
-    
       setMovieData(response.data.movies);
     }).catch(error => {
       setErrorMessage(error.message);
       setShowModal(true);
     });
-    };
+  }
+
+
+
+  const handleClick = (event) => {
+    event.preventDefault();
+    locationCall();
+
+
+  };
 
   const [showModal, setShowModal] = useState(false);
 
@@ -75,7 +91,7 @@ function App() {
 
   return (
     <>
-    <h1>City Explorer</h1>
+      <h1>City Explorer</h1>
       <Form>
         <Form.Group className="mb-3" controlId="formBasicEmail">
           <Form.Control placeholder="Enter location" onChange={handleChange} />
@@ -86,7 +102,7 @@ function App() {
         </Button>
       </Form>
       <h3>
-      {displayName}
+        {displayName}
       </h3>
       <Accordion defaultActiveKey="0">
         <Accordion.Item eventKey="0">
@@ -102,11 +118,11 @@ function App() {
           </Accordion.Body>
         </Accordion.Item>
       </Accordion>
-      <Weather weatherData={weatherData}/>
+      <Weather weatherData={weatherData} />
 
-      <img src={`https://maps.locationiq.com/v3/staticmap?key=${API_KEY}&center=${latitude},${longitude}&zoom=10`} style={{display: 'inline'}}/>
+      <img src={`https://maps.locationiq.com/v3/staticmap?key=${API_KEY}&center=${latitude},${longitude}&zoom=10`} style={{ display: 'inline' }} />
 
-      <Movies movieData={movieData}/>
+      <Movies movieData={movieData} />
       <Modal
         show={showModal}
         onHide={handleHide}

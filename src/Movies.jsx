@@ -1,21 +1,12 @@
-import Card from 'react-bootstrap/Card';
+import Movie from './Movie';
 
 function Movies(props) {
   return (
   <>
-    {props.movieData.map((movie , index) => (
-      <><Card key={index} style={{ width: '18rem' }}>
-        <Card.Body>
-          <Card.Title>{movie.title}</Card.Title>
-          <Card.Subtitle className="mb-2 text-muted">{movie.overview}</Card.Subtitle>
-          <Card.Text>Average votes: {movie.vote_average}</Card.Text>
-          <Card.Text>Vote Count: {movie.vote_count}</Card.Text>
-          <Card.Text>Popularity: {movie.popularity}</Card.Text>
-          <Card.Text>Released on: {movie.release_date}</Card.Text>
-        </Card.Body>
-      </Card></>
-      
-      
+    {props.movieData.map((movie, index) => (
+    <>
+      <Movie index={index} title={movie.title} overview={movie.overview} vote_average={movie.vote_average} vote_count={movie.vote_count} popularity={movie.popularity} release_date={movie.release_date}/>
+      </>
     ))}
   </>);
 }
