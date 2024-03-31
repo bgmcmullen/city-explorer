@@ -31,6 +31,8 @@ React Bootstrap, LocationIQ, Netlify
 
 03-29-2024 8:21am - modules refactored
 
+03-31-2024 7:11pm - updated README
+
 ## Diagram
 [Diagram](Diagram.pdf)
 
