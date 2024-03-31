@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import Modal from 'react-bootstrap/Modal';
@@ -36,12 +36,19 @@ function App() {
     released_on: ''
   }]);
 
+  useEffect(() => {
+    if (latitude && longitude) {
+      weatherCall();
+      moviesCall();
+    }
+  }, [latitude, longitude]);
+
   async function locationCall() {
     try {
       const response = await axios.get(`https://us1.locationiq.com/v1/search?key=${API_KEY}&q=${inputValue}&format=json`);
       setDisplayName(response.data[0].display_name);
-      await setLatitude(response.data[0].lat);
-      await setLongitude(response.data[0].lon);
+      setLatitude(response.data[0].lat);
+      setLongitude(response.data[0].lon);
       weatherCall();
       moviesCall();
     } catch (error) {
